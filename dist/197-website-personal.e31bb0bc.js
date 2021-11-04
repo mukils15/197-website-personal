@@ -31122,25 +31122,61 @@ var AddPost = function AddPost(props) {
 
 var _default = AddPost;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js"}],"src/components/Info.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js"}],"src/selectors.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.getPostsState = exports.getPostsList = exports.getPostsByFilter = exports.getPosts = exports.getPostByID = exports.getInfo = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-var Info = function Info() {
-  return /*#__PURE__*/_react.default.createElement("h1", null, "Hi! My name is Mukil Shanmugam!");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var getPostsState = function getPostsState(store) {
+  return store.Posts;
 };
 
-var _default = Info;
-exports.default = _default;
-},{"react":"node_modules/react/index.js"}],"node_modules/react-is/cjs/react-is.development.js":[function(require,module,exports) {
+exports.getPostsState = getPostsState;
+
+var getPostsList = function getPostsList(store) {
+  return getPostsState(store) ? getPostsState(store).allPosts : [];
+};
+
+exports.getPostsList = getPostsList;
+
+var getPostByID = function getPostByID(store, id) {
+  return getPostsState(store) ? _objectSpread(_objectSpread({}, getPostsState(store).byIds[id]), {}, {
+    id: id
+  }) : {};
+};
+
+exports.getPostByID = getPostByID;
+
+var getPosts = function getPosts(store) {
+  return getPostsList(store).map(function (id) {
+    return getPostByID(store, id);
+  });
+};
+
+exports.getPosts = getPosts;
+
+var getPostsByFilter = function getPostsByFilter(store) {
+  var allTodos = store.Posts.byIds;
+  return allTodos;
+};
+
+exports.getPostsByFilter = getPostsByFilter;
+
+var getInfo = function getInfo(store) {
+  return store.Info.info;
+};
+
+exports.getInfo = getInfo;
+},{}],"node_modules/react-is/cjs/react-is.development.js":[function(require,module,exports) {
 /** @license React v16.13.1
  * react-is.development.js
  *
@@ -34226,30 +34262,76 @@ var _batch = require("./utils/batch");
 // Enable batched updates in our subscriptions for use
 // with standard React renderers (ReactDOM, React Native)
 (0, _batch.setBatch)(_reactBatchedUpdates.unstable_batchedUpdates);
-},{"./exports":"node_modules/react-redux/es/exports.js","./utils/reactBatchedUpdates":"node_modules/react-redux/es/utils/reactBatchedUpdates.js","./utils/batch":"node_modules/react-redux/es/utils/batch.js"}],"src/actions/actionTypes.js":[function(require,module,exports) {
+},{"./exports":"node_modules/react-redux/es/exports.js","./utils/reactBatchedUpdates":"node_modules/react-redux/es/utils/reactBatchedUpdates.js","./utils/batch":"node_modules/react-redux/es/utils/batch.js"}],"src/components/Info.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SUBMIT_POST = exports.SET_FILTER = exports.EDIT_INFO = void 0;
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _selectors = require("../selectors");
+
+var _reactRedux = require("react-redux");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Info = function Info(_ref) {
+  var info = _ref.info;
+  console.log(info);
+
+  if (info.image === '' || info.description === '' || info.image === null || info.description === null) {
+    return /*#__PURE__*/_react.default.createElement("h1", null, "Hi! My name is Mukil Shanmugam!");
+  } else {
+    return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, "Hi! My name is Mukil Shanmugam!"), /*#__PURE__*/_react.default.createElement("img", {
+      src: info.image,
+      alt: "Profile Image",
+      width: "100",
+      height: "100"
+    }), /*#__PURE__*/_react.default.createElement("h1", null, info.description));
+  }
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  var info = (0, _selectors.getInfo)(state);
+  return {
+    info: info
+  };
+};
+
+var _default = (0, _reactRedux.connect)(mapStateToProps)(Info);
+
+exports.default = _default;
+},{"react":"node_modules/react/index.js","../selectors":"src/selectors.js","react-redux":"node_modules/react-redux/es/index.js"}],"src/actions/actionTypes.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SUBMIT_POST = exports.EDIT_POST = exports.EDIT_INFO = exports.DELETE_POST = exports.ADD_INFO = void 0;
 var SUBMIT_POST = "SUBMIT_POST";
 exports.SUBMIT_POST = SUBMIT_POST;
 var EDIT_INFO = "EDIT_INFO";
 exports.EDIT_INFO = EDIT_INFO;
-var SET_FILTER = "SET_FILTER";
-exports.SET_FILTER = SET_FILTER;
+var EDIT_POST = "EDIT_POST";
+exports.EDIT_POST = EDIT_POST;
+var ADD_INFO = "ADD_INFO";
+exports.ADD_INFO = ADD_INFO;
+var DELETE_POST = "DELETE_POST";
+exports.DELETE_POST = DELETE_POST;
 },{}],"src/actions/EditInfo.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.editInfoPost = void 0;
+exports.editPost = void 0;
 
 var _actionTypes = require("./actionTypes");
 
-var editInfoPost = function editInfoPost() {
+var editPost = function editPost() {
   var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
     image: image,
     description: description
@@ -34262,7 +34344,7 @@ var editInfoPost = function editInfoPost() {
   };
 };
 
-exports.editInfoPost = editInfoPost;
+exports.editPost = editPost;
 },{"./actionTypes":"src/actions/actionTypes.js"}],"src/components/InfoEdit.js":[function(require,module,exports) {
 "use strict";
 
@@ -34363,7 +34445,31 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/components/InfoPopup.js":[function(require,module,exports) {
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/actions/addInfo.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addInfo = void 0;
+
+var _actionTypes = require("./actionTypes");
+
+var addInfo = function addInfo() {
+  var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    image: image,
+    description: description
+  };
+  return console.log(content), {
+    type: _actionTypes.ADD_INFO,
+    payload: {
+      content: content
+    }
+  };
+};
+
+exports.addInfo = addInfo;
+},{"./actionTypes":"src/actions/actionTypes.js"}],"src/components/InfoPopup.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34374,6 +34480,10 @@ exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 
 require("../styles/styles.css");
+
+var _addInfo = require("../actions/addInfo");
+
+var _reactRedux = require("react-redux");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -34402,6 +34512,11 @@ var InfoPopup = function InfoPopup(props) {
       desc = _useState4[0],
       changeDesc = _useState4[1];
 
+  var onSubmit = function onSubmit(event) {
+    props.handleClose;
+    event.preventDefault();
+  };
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "popup-box"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -34410,7 +34525,7 @@ var InfoPopup = function InfoPopup(props) {
     className: "close-icon",
     onClick: props.handleClose
   }, "x"), /*#__PURE__*/_react.default.createElement("form", {
-    onSubmit: props.handleClose
+    onSubmit: onSubmit
   }, /*#__PURE__*/_react.default.createElement("label", null, "Image URL:", /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("input", {
     type: "text",
     name: "Image URL",
@@ -34426,13 +34541,22 @@ var InfoPopup = function InfoPopup(props) {
       return changeDesc(e.target.value);
     }
   })), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
-    type: "submit"
+    type: "submit",
+    onClick: function onClick() {
+      return props.addInfo({
+        imageUrl: imageUrl,
+        desc: desc
+      });
+    }
   }, "Submit Info"))));
 };
 
-var _default = InfoPopup;
+var _default = (0, _reactRedux.connect)(null, {
+  addInfo: _addInfo.addInfo
+})(InfoPopup);
+
 exports.default = _default;
-},{"react":"node_modules/react/index.js","../styles/styles.css":"src/styles/styles.css"}],"src/components/Header.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../styles/styles.css":"src/styles/styles.css","../actions/addInfo":"src/actions/addInfo.js","react-redux":"node_modules/react-redux/es/index.js"}],"src/components/Header.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34483,16 +34607,44 @@ var Header = function Header() {
 
   return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "Header"
-  }, /*#__PURE__*/_react.default.createElement("p", null, /*#__PURE__*/_react.default.createElement(_Info.default, null), /*#__PURE__*/_react.default.createElement(_InfoEdit.default, {
+  }, /*#__PURE__*/_react.default.createElement(_Info.default, null), /*#__PURE__*/_react.default.createElement(_InfoEdit.default, {
     togglePopup: togglePopup
   }), isOpen && /*#__PURE__*/_react.default.createElement(_InfoPopup.default, {
     handleClose: togglePopup
-  }))));
+  })));
 };
 
 var _default = Header;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","./Info":"src/components/Info.js","./InfoEdit":"src/components/InfoEdit.js","./InfoPopup":"src/components/InfoPopup.js","../styles/styles.css":"src/styles/styles.css"}],"src/components/PostPopup.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","./Info":"src/components/Info.js","./InfoEdit":"src/components/InfoEdit.js","./InfoPopup":"src/components/InfoPopup.js","../styles/styles.css":"src/styles/styles.css"}],"src/actions/postAction.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.submitPost = void 0;
+
+var _actionTypes = require("./actionTypes");
+
+var nextPostId = 0;
+
+var submitPost = function submitPost() {
+  var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    title: title,
+    image: image,
+    description: description
+  };
+  return {
+    type: _actionTypes.SUBMIT_POST,
+    payload: {
+      id: ++nextPostId,
+      content: content
+    }
+  };
+};
+
+exports.submitPost = submitPost;
+},{"./actionTypes":"src/actions/actionTypes.js"}],"src/components/PostPopup.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34503,6 +34655,10 @@ exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 
 require("../styles/styles.css");
+
+var _postAction = require("../actions/postAction");
+
+var _reactRedux = require("react-redux");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -34536,6 +34692,11 @@ var PostPopup = function PostPopup(props) {
       desc = _useState6[0],
       changeDesc = _useState6[1];
 
+  var onSubmit = function onSubmit(event) {
+    props.handleClose;
+    event.preventDefault();
+  };
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "popup-box"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -34543,8 +34704,10 @@ var PostPopup = function PostPopup(props) {
   }, /*#__PURE__*/_react.default.createElement("span", {
     className: "close-icon",
     onClick: props.handleClose
-  }, "x"), /*#__PURE__*/_react.default.createElement("form", {
-    onSubmit: props.handleClose
+  }, "x"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "popup-form"
+  }, /*#__PURE__*/_react.default.createElement("form", {
+    onSubmit: onSubmit
   }, /*#__PURE__*/_react.default.createElement("label", null, "Title:", /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("input", {
     type: "text",
     name: "Title",
@@ -34567,13 +34730,326 @@ var PostPopup = function PostPopup(props) {
       return changeDesc(e.target.value);
     }
   })), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
-    type: "submit"
-  }, "Add Post"))));
+    type: "submit",
+    onClick: function onClick() {
+      return props.submitPost({
+        title: title,
+        imageUrl: imageUrl,
+        desc: desc
+      });
+    }
+  }, "Add Post")))));
 };
 
-var _default = PostPopup;
+var _default = (0, _reactRedux.connect)(null, {
+  submitPost: _postAction.submitPost
+})(PostPopup);
+
 exports.default = _default;
-},{"react":"node_modules/react/index.js","../styles/styles.css":"src/styles/styles.css"}],"src/components/AllPosts.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../styles/styles.css":"src/styles/styles.css","../actions/postAction":"src/actions/postAction.js","react-redux":"node_modules/react-redux/es/index.js"}],"src/components/PostEdit.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PostEdit = function PostEdit(props) {
+  console.log(props);
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("form", {
+    onSubmit: props.togglePopup
+  }, /*#__PURE__*/_react.default.createElement(_Button.default, {
+    type: "submit"
+  }, "Edit Post")));
+};
+
+var _default = PostEdit;
+exports.default = _default;
+},{"react":"node_modules/react/index.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js"}],"src/actions/EditPost.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.editPost = void 0;
+
+var _actionTypes = require("./actionTypes");
+
+var editPost = function editPost() {
+  var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    ind: ind,
+    title: title,
+    image: image,
+    description: description
+  };
+  return {
+    type: _actionTypes.EDIT_POST,
+    payload: {
+      id: content.ind,
+      content: content
+    }
+  };
+};
+
+exports.editPost = editPost;
+},{"./actionTypes":"src/actions/actionTypes.js"}],"src/actions/deletePost.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deletePost = void 0;
+
+var _actionTypes = require("./actionTypes");
+
+var deletePost = function deletePost() {
+  var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    ind: ind
+  };
+  return {
+    type: _actionTypes.DELETE_POST,
+    payload: {
+      id: content.ind
+    }
+  };
+};
+
+exports.deletePost = deletePost;
+},{"./actionTypes":"src/actions/actionTypes.js"}],"src/components/PostEditPopup.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+require("../styles/styles.css");
+
+var _EditPost = require("../actions/EditPost");
+
+var _reactRedux = require("react-redux");
+
+var _deletePost = require("../actions/deletePost");
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var PostEditPopup = function PostEditPopup(props) {
+  console.log(props);
+
+  var _useState = (0, _react.useState)(props.title),
+      _useState2 = _slicedToArray(_useState, 2),
+      title = _useState2[0],
+      changeTitle = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(props.image),
+      _useState4 = _slicedToArray(_useState3, 2),
+      imageUrl = _useState4[0],
+      changeURL = _useState4[1];
+
+  var _useState5 = (0, _react.useState)(props.desc),
+      _useState6 = _slicedToArray(_useState5, 2),
+      desc = _useState6[0],
+      changeDesc = _useState6[1];
+
+  var _useState7 = (0, _react.useState)(props.ind),
+      _useState8 = _slicedToArray(_useState7, 2),
+      ind = _useState8[0],
+      chaneInd = _useState8[1];
+
+  var onSubmit = function onSubmit(event) {
+    props.handleClose;
+    event.preventDefault();
+  };
+
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "popup-box"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "box"
+  }, /*#__PURE__*/_react.default.createElement("span", {
+    className: "close-icon",
+    onClick: props.handleClose
+  }, "x"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "popup-form"
+  }, /*#__PURE__*/_react.default.createElement("form", {
+    onSubmit: onSubmit
+  }, /*#__PURE__*/_react.default.createElement("label", null, "Title:", /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    name: "Title",
+    value: title,
+    onChange: function onChange(e) {
+      return changeTitle(e.target.value);
+    }
+  })), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", null, "Image:", /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    name: "Image URL",
+    value: imageUrl,
+    onChange: function onChange(e) {
+      return changeURL(e.target.value);
+    }
+  })), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("label", null, "Description:", /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("input", {
+    type: "text",
+    name: "description",
+    value: desc,
+    onChange: function onChange(e) {
+      return changeDesc(e.target.value);
+    }
+  })), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
+    type: "submit",
+    onClick: function onClick() {
+      return props.editPost({
+        ind: ind,
+        title: title,
+        imageUrl: imageUrl,
+        desc: desc
+      });
+    }
+  }, "Edit Post"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: props.handleClose
+  }, "Cancel"), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: function onClick() {
+      return props.deletePost({
+        ind: ind
+      });
+    }
+  }, "Delete Post")))));
+};
+
+var _default = (0, _reactRedux.connect)(null, {
+  editPost: _EditPost.editPost,
+  deletePost: _deletePost.deletePost
+})(PostEditPopup);
+
+exports.default = _default;
+},{"react":"node_modules/react/index.js","../styles/styles.css":"src/styles/styles.css","../actions/EditPost":"src/actions/EditPost.js","react-redux":"node_modules/react-redux/es/index.js","../actions/deletePost":"src/actions/deletePost.js"}],"src/components/Post.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _reactRedux = require("react-redux");
+
+var _PostEdit = _interopRequireDefault(require("./PostEdit"));
+
+var _EditPost = require("../actions/EditPost");
+
+var _PostEditPopup = _interopRequireDefault(require("./PostEditPopup"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var Post = function Post(props) {
+  console.log(props);
+
+  var _useState = (0, _react.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      isOpen = _useState2[0],
+      setIsOpen = _useState2[1];
+
+  var togglePopup = function togglePopup(e) {
+    setIsOpen(!isOpen);
+    e.preventDefault();
+  };
+
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, props.post.title), /*#__PURE__*/_react.default.createElement("img", {
+    src: props.post.image,
+    alt: "Image",
+    width: "100",
+    height: "100"
+  }), /*#__PURE__*/_react.default.createElement("br", null), props.post.description, /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement(_PostEdit.default, {
+    togglePopup: togglePopup
+  }), isOpen && /*#__PURE__*/_react.default.createElement(_PostEditPopup.default, {
+    handleClose: togglePopup,
+    ind: props.ind,
+    title: props.post.title,
+    image: props.post.image,
+    desc: props.post.description
+  }));
+};
+
+var _default = Post;
+exports.default = _default;
+},{"react":"node_modules/react/index.js","react-redux":"node_modules/react-redux/es/index.js","./PostEdit":"src/components/PostEdit.js","../actions/EditPost":"src/actions/EditPost.js","./PostEditPopup":"src/components/PostEditPopup.js"}],"src/components/PostList.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactRedux = require("react-redux");
+
+var _Post = _interopRequireDefault(require("./Post"));
+
+var _selectors = require("../selectors");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PostList = function PostList(_ref) {
+  var posts = _ref.posts;
+  return console.log(posts[1]), /*#__PURE__*/_react.default.createElement("ul", {
+    className: "post-list"
+  }, posts && Object.keys(posts).length ? Object.keys(posts).map(function (key, index) {
+    return /*#__PURE__*/_react.default.createElement(_Post.default, {
+      ind: key,
+      post: posts[key]
+    });
+  }) : "No Posts");
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  var posts = (0, _selectors.getPostsByFilter)(state);
+  return {
+    posts: posts
+  };
+};
+
+var _default = (0, _reactRedux.connect)(mapStateToProps)(PostList);
+
+exports.default = _default;
+},{"react":"node_modules/react/index.js","react-redux":"node_modules/react-redux/es/index.js","./Post":"src/components/Post.js","../selectors":"src/selectors.js"}],"src/components/AllPosts.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34586,6 +35062,8 @@ var _react = _interopRequireWildcard(require("react"));
 var _AddPost = _interopRequireDefault(require("./AddPost"));
 
 var _PostPopup = _interopRequireDefault(require("./PostPopup"));
+
+var _PostList = _interopRequireDefault(require("./PostList"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34620,12 +35098,12 @@ var AllPosts = function AllPosts() {
     togglePopup: togglePopup
   }), isOpen && /*#__PURE__*/_react.default.createElement(_PostPopup.default, {
     handleClose: togglePopup
-  }));
+  }), /*#__PURE__*/_react.default.createElement(_PostList.default, null));
 };
 
 var _default = AllPosts;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./AddPost":"src/components/AddPost.js","./PostPopup":"src/components/PostPopup.js"}],"src/components/AppFin.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./AddPost":"src/components/AddPost.js","./PostPopup":"src/components/PostPopup.js","./PostList":"src/components/PostList.js"}],"src/components/AppFin.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35473,13 +35951,14 @@ function _default() {
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
-    case _actionTypes.EDIT_INFO:
+    case _actionTypes.ADD_INFO:
       {
-        var content = action.payload.content;
+        var img = action.payload.content.imageUrl;
+        var desc = action.payload.content.desc;
         return _objectSpread(_objectSpread({}, state), {}, {
           info: {
-            image: content.image,
-            description: content.description
+            image: img,
+            description: desc
           }
         });
       }
@@ -35525,18 +36004,54 @@ function _default() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
+  var filter = function filter(obj, predicate) {
+    return Object.keys(obj).filter(function (key) {
+      return predicate(key);
+    }).reduce(function (res, key) {
+      return res[key] = obj[key], res;
+    }, {});
+  };
+
   switch (action.type) {
     case _actionTypes.SUBMIT_POST:
       {
-        var _action$payload = action.payload,
-            id = _action$payload.id,
-            content = _action$payload.content;
+        var title = action.payload.content.title;
+        var image = action.payload.content.imageUrl;
+        var description = action.payload.content.desc;
+        var id = action.payload.id;
         return _objectSpread(_objectSpread({}, state), {}, {
-          allIds: [].concat(_toConsumableArray(state.allIds), [id]),
+          allPosts: [].concat(_toConsumableArray(state.allPosts), [id]),
           byIds: _objectSpread(_objectSpread({}, state.byIds), {}, _defineProperty({}, id, {
-            content: content,
-            completed: false
+            title: title,
+            image: image,
+            description: description
           }))
+        });
+      }
+
+    case _actionTypes.EDIT_POST:
+      {
+        var _title = action.payload.content.title;
+        var _image = action.payload.content.imageUrl;
+        var _description = action.payload.content.desc;
+        var _id = action.payload.id;
+        return _objectSpread(_objectSpread({}, state), {}, {
+          byIds: _objectSpread(_objectSpread({}, state.byIds), {}, _defineProperty({}, _id, {
+            title: _title,
+            image: _image,
+            description: _description
+          }))
+        });
+      }
+
+    case _actionTypes.DELETE_POST:
+      {
+        var _id2 = action.payload.id;
+        return _objectSpread(_objectSpread({}, state), {}, {
+          allPosts: state.allPosts.splice(state.allPosts.indexOf(_id2), 1),
+          byIds: filter(state.byIds, function (name) {
+            return name != _id2;
+          })
         });
       }
 
@@ -35616,7 +36131,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49710" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61332" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

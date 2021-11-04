@@ -1,16 +1,24 @@
 import React from "react";
 import "../styles/styles.css";
 import { useState } from "react";
+import { addInfo } from "../actions/addInfo";
+import { connect } from "react-redux";
 
 const InfoPopup = (props) => {
     const [imageUrl, changeURL] = useState("");
     const [desc, changeDesc] = useState("");
     
+
+    const onSubmit = (event) => {
+        props.handleClose;
+        event.preventDefault();
+    }
+
     return(
         <div className="popup-box">
             <div className="box">
                 <span className="close-icon" onClick={props.handleClose}>x</span>
-                <form onSubmit={props.handleClose}>
+                <form onSubmit={onSubmit}>
                     <label>
                         Image URL:
                         <br>
@@ -27,11 +35,11 @@ const InfoPopup = (props) => {
                     </label>
                     <br>
                     </br>
-                    <button type='submit'>Submit Info</button>
+                    <button type='submit' onClick={() => props.addInfo({imageUrl, desc})}>Submit Info</button>
                 </form>
             </div>
         </div> 
     )   
 }
 
-export default InfoPopup;
+export default connect(null, {addInfo})(InfoPopup);

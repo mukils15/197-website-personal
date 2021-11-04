@@ -1,7 +1,7 @@
-import { EDIT_INFO } from "./actionTypes";
+import { EDIT_INFO} from "./actionTypes";
 
 
-export const editInfoPost = (content={image, description}) => ({
+export const editPost = (content={image, description}) => ({
   type: EDIT_INFO,
   payload: {
     content

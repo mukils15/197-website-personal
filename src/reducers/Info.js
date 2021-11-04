@@ -1,4 +1,4 @@
-import { EDIT_INFO } from "../actions/actionTypes";
+import { EDIT_INFO, ADD_INFO } from "../actions/actionTypes";
 
 const initialState = {
   info: {image: "", description: ""}
@@ -6,13 +6,14 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case EDIT_INFO: {
-      const { content } = action.payload;
-      return {
-        ...state,
-        info: {image: content.image, description: content.description}
-      };
-    }
+    case ADD_INFO: {
+        const img  = action.payload.content.imageUrl;
+        const desc  = action.payload.content.desc;
+        return {
+          ...state,
+          info: {image: img, description: desc}
+        };
+      }
     default:
       return state;
   }

@@ -17,7 +17,6 @@ const Header = () => {
     return(
         <div>
             <div className="Header">
-            <p>
                 <Info>
                 </Info>
                 <InfoEdit togglePopup = {togglePopup}>  
@@ -25,7 +24,6 @@ const Header = () => {
                 {isOpen && <InfoPopup
                 handleClose={togglePopup}
                 />}
-            </p> 
             </div>   
         </div>
         

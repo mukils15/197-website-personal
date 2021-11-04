@@ -1,13 +1,16 @@
 import React from "react";
 import "../styles/styles.css";
 import { useState } from "react";
-import { submitPost } from "../actions/postAction";
+import { editPost } from "../actions/EditPost";
 import { connect } from "react-redux";
+import { deletePost } from "../actions/deletePost";
 
-const PostPopup = (props) => {
-    const [title, changeTitle] = useState("");
-    const [imageUrl, changeURL] = useState("");
-    const [desc, changeDesc] = useState("");
+const PostEditPopup = (props) => {
+    console.log(props);
+    const [title, changeTitle] = useState(props.title);
+    const [imageUrl, changeURL] = useState(props.image);
+    const [desc, changeDesc] = useState(props.desc);
+    const [ind, chaneInd] = useState(props.ind);
 
     const onSubmit = (event) => {
         props.handleClose;
@@ -44,7 +47,11 @@ const PostPopup = (props) => {
                     </label>
                     <br>
                     </br>
-                    <button type='submit' onClick={() => props.submitPost({title, imageUrl, desc})}>Add Post</button>
+                    <button type='submit' onClick={() => props.editPost({ind, title, imageUrl, desc})}>Edit Post</button>
+                    <button onClick={props.handleClose}>Cancel</button>
+                    <br>
+                    </br>
+                    <button onClick={() => props.deletePost({ind})}>Delete Post</button>
                 </form>
                 </div>
             </div>
@@ -52,4 +59,4 @@ const PostPopup = (props) => {
     )   
 }
 
-export default connect(null, {submitPost})(PostPopup);
+export default connect(null, {editPost, deletePost})(PostEditPopup);

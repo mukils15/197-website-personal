@@ -2,6 +2,7 @@ import React from "react";
 import AddPost from "./AddPost";
 import { useState } from "react";
 import PostPopup from "./PostPopup";
+import PostList from "./PostList";
 
 const AllPosts = () => {
 
@@ -22,6 +23,8 @@ const AllPosts = () => {
            {isOpen && <PostPopup
             handleClose={togglePopup}
             />}
+            <PostList>  
+            </PostList>
         </div>
     )   
 }
