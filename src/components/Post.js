@@ -14,6 +14,9 @@ const Post = (props) => {
         return (
         <div>
             <h1>
+                Post {props.ind}
+                <br>
+                </br>
                 {props.post.title}
             </h1>
             <img src={props.post.image} alt="Image" width="100" height="100"/>

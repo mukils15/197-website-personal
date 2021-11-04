@@ -2,8 +2,10 @@ import React from "react";
 import Button from "react-bootstrap/Button"
 import { connect } from "react-redux";
 import { editInfoPost } from "../actions/EditInfo";
+import { useState } from "react";
 
 const InfoEdit = (props) => {
+    const [editMode, setEdit] = useState(true);
     return(
         <div>
             <form onSubmit={props.togglePopup}>

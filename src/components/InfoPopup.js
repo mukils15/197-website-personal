@@ -5,8 +5,8 @@ import { addInfo } from "../actions/addInfo";
 import { connect } from "react-redux";
 
 const InfoPopup = (props) => {
-    const [imageUrl, changeURL] = useState("");
-    const [desc, changeDesc] = useState("");
+    const [imageUrl, changeURL] = useState(props.image);
+    const [desc, changeDesc] = useState(props.desc);
     
 
     const onSubmit = (event) => {

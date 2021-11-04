@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { deletePost } from "../actions/deletePost";
 
 const PostEditPopup = (props) => {
-    console.log(props);
+    const [editMode, setEdit] = useState(true);
     const [title, changeTitle] = useState(props.title);
     const [imageUrl, changeURL] = useState(props.image);
     const [desc, changeDesc] = useState(props.desc);

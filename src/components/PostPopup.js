@@ -8,7 +8,8 @@ const PostPopup = (props) => {
     const [title, changeTitle] = useState("");
     const [imageUrl, changeURL] = useState("");
     const [desc, changeDesc] = useState("");
-
+    const [editMode, setEdit] = useState(true);
+    
     const onSubmit = (event) => {
         props.handleClose;
         event.preventDefault();

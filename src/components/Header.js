@@ -8,7 +8,7 @@ import "../styles/styles.css";
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const [editMode, setEdit] = useState(true);
     const togglePopup = (e) => {
         setIsOpen(!isOpen);
         e.preventDefault();
@@ -19,11 +19,6 @@ const Header = () => {
             <div className="Header">
                 <Info>
                 </Info>
-                <InfoEdit togglePopup = {togglePopup}>  
-                </InfoEdit>
-                {isOpen && <InfoPopup
-                handleClose={togglePopup}
-                />}
             </div>   
         </div>
         

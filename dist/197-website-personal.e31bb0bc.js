@@ -34262,49 +34262,7 @@ var _batch = require("./utils/batch");
 // Enable batched updates in our subscriptions for use
 // with standard React renderers (ReactDOM, React Native)
 (0, _batch.setBatch)(_reactBatchedUpdates.unstable_batchedUpdates);
-},{"./exports":"node_modules/react-redux/es/exports.js","./utils/reactBatchedUpdates":"node_modules/react-redux/es/utils/reactBatchedUpdates.js","./utils/batch":"node_modules/react-redux/es/utils/batch.js"}],"src/components/Info.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _selectors = require("../selectors");
-
-var _reactRedux = require("react-redux");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Info = function Info(_ref) {
-  var info = _ref.info;
-  console.log(info);
-
-  if (info.image === '' || info.description === '' || info.image === null || info.description === null) {
-    return /*#__PURE__*/_react.default.createElement("h1", null, "Hi! My name is Mukil Shanmugam!");
-  } else {
-    return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, "Hi! My name is Mukil Shanmugam!"), /*#__PURE__*/_react.default.createElement("img", {
-      src: info.image,
-      alt: "Profile Image",
-      width: "100",
-      height: "100"
-    }), /*#__PURE__*/_react.default.createElement("h1", null, info.description));
-  }
-};
-
-var mapStateToProps = function mapStateToProps(state) {
-  var info = (0, _selectors.getInfo)(state);
-  return {
-    info: info
-  };
-};
-
-var _default = (0, _reactRedux.connect)(mapStateToProps)(Info);
-
-exports.default = _default;
-},{"react":"node_modules/react/index.js","../selectors":"src/selectors.js","react-redux":"node_modules/react-redux/es/index.js"}],"src/actions/actionTypes.js":[function(require,module,exports) {
+},{"./exports":"node_modules/react-redux/es/exports.js","./utils/reactBatchedUpdates":"node_modules/react-redux/es/utils/reactBatchedUpdates.js","./utils/batch":"node_modules/react-redux/es/utils/batch.js"}],"src/actions/actionTypes.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34353,7 +34311,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
@@ -34363,7 +34321,28 @@ var _EditInfo = require("../actions/EditInfo");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 var InfoEdit = function InfoEdit(props) {
+  var _useState = (0, _react.useState)(true),
+      _useState2 = _slicedToArray(_useState, 2),
+      editMode = _useState2[0],
+      setEdit = _useState2[1];
+
   return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("form", {
     onSubmit: props.togglePopup
   }, /*#__PURE__*/_react.default.createElement(_Button.default, {
@@ -34502,12 +34481,12 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var InfoPopup = function InfoPopup(props) {
-  var _useState = (0, _react.useState)(""),
+  var _useState = (0, _react.useState)(props.image),
       _useState2 = _slicedToArray(_useState, 2),
       imageUrl = _useState2[0],
       changeURL = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(""),
+  var _useState3 = (0, _react.useState)(props.desc),
       _useState4 = _slicedToArray(_useState3, 2),
       desc = _useState4[0],
       changeDesc = _useState4[1];
@@ -34556,7 +34535,93 @@ var _default = (0, _reactRedux.connect)(null, {
 })(InfoPopup);
 
 exports.default = _default;
-},{"react":"node_modules/react/index.js","../styles/styles.css":"src/styles/styles.css","../actions/addInfo":"src/actions/addInfo.js","react-redux":"node_modules/react-redux/es/index.js"}],"src/components/Header.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../styles/styles.css":"src/styles/styles.css","../actions/addInfo":"src/actions/addInfo.js","react-redux":"node_modules/react-redux/es/index.js"}],"src/components/Info.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _selectors = require("../selectors");
+
+var _reactRedux = require("react-redux");
+
+var _InfoEdit = _interopRequireDefault(require("./InfoEdit"));
+
+var _InfoPopup = _interopRequireDefault(require("./InfoPopup"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var Info = function Info(_ref) {
+  var info = _ref.info;
+
+  var _useState = (0, _react.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      isOpen = _useState2[0],
+      setIsOpen = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(true),
+      _useState4 = _slicedToArray(_useState3, 2),
+      editMode = _useState4[0],
+      setEdit = _useState4[1];
+
+  var togglePopup = function togglePopup(e) {
+    setIsOpen(!isOpen);
+    e.preventDefault();
+  };
+
+  if (info.image === '' || info.description === '' || info.image === null || info.description === null) {
+    return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, "Hi! My name is Mukil Shanmugam!"), /*#__PURE__*/_react.default.createElement(_InfoEdit.default, {
+      togglePopup: togglePopup
+    }), isOpen && /*#__PURE__*/_react.default.createElement(_InfoPopup.default, {
+      handleClose: togglePopup
+    }));
+  } else {
+    return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, "Hi! My name is Mukil Shanmugam!"), /*#__PURE__*/_react.default.createElement("img", {
+      src: info.image,
+      alt: "Profile Image",
+      width: "100",
+      height: "100"
+    }), /*#__PURE__*/_react.default.createElement("h1", null, info.description), /*#__PURE__*/_react.default.createElement(_InfoEdit.default, {
+      togglePopup: togglePopup
+    }), isOpen && /*#__PURE__*/_react.default.createElement(_InfoPopup.default, {
+      image: info.image,
+      desc: info.description,
+      handleClose: togglePopup
+    }));
+  }
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  var info = (0, _selectors.getInfo)(state);
+  return {
+    info: info
+  };
+};
+
+var _default = (0, _reactRedux.connect)(mapStateToProps)(Info);
+
+exports.default = _default;
+},{"react":"node_modules/react/index.js","../selectors":"src/selectors.js","react-redux":"node_modules/react-redux/es/index.js","./InfoEdit":"src/components/InfoEdit.js","./InfoPopup":"src/components/InfoPopup.js"}],"src/components/Header.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34600,6 +34665,11 @@ var Header = function Header() {
       isOpen = _useState2[0],
       setIsOpen = _useState2[1];
 
+  var _useState3 = (0, _react.useState)(true),
+      _useState4 = _slicedToArray(_useState3, 2),
+      editMode = _useState4[0],
+      setEdit = _useState4[1];
+
   var togglePopup = function togglePopup(e) {
     setIsOpen(!isOpen);
     e.preventDefault();
@@ -34607,11 +34677,7 @@ var Header = function Header() {
 
   return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "Header"
-  }, /*#__PURE__*/_react.default.createElement(_Info.default, null), /*#__PURE__*/_react.default.createElement(_InfoEdit.default, {
-    togglePopup: togglePopup
-  }), isOpen && /*#__PURE__*/_react.default.createElement(_InfoPopup.default, {
-    handleClose: togglePopup
-  })));
+  }, /*#__PURE__*/_react.default.createElement(_Info.default, null)));
 };
 
 var _default = Header;
@@ -34691,6 +34757,11 @@ var PostPopup = function PostPopup(props) {
       _useState6 = _slicedToArray(_useState5, 2),
       desc = _useState6[0],
       changeDesc = _useState6[1];
+
+  var _useState7 = (0, _react.useState)(true),
+      _useState8 = _slicedToArray(_useState7, 2),
+      editMode = _useState8[0],
+      setEdit = _useState8[1];
 
   var onSubmit = function onSubmit(event) {
     props.handleClose;
@@ -34856,27 +34927,30 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var PostEditPopup = function PostEditPopup(props) {
-  console.log(props);
-
-  var _useState = (0, _react.useState)(props.title),
+  var _useState = (0, _react.useState)(true),
       _useState2 = _slicedToArray(_useState, 2),
-      title = _useState2[0],
-      changeTitle = _useState2[1];
+      editMode = _useState2[0],
+      setEdit = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(props.image),
+  var _useState3 = (0, _react.useState)(props.title),
       _useState4 = _slicedToArray(_useState3, 2),
-      imageUrl = _useState4[0],
-      changeURL = _useState4[1];
+      title = _useState4[0],
+      changeTitle = _useState4[1];
 
-  var _useState5 = (0, _react.useState)(props.desc),
+  var _useState5 = (0, _react.useState)(props.image),
       _useState6 = _slicedToArray(_useState5, 2),
-      desc = _useState6[0],
-      changeDesc = _useState6[1];
+      imageUrl = _useState6[0],
+      changeURL = _useState6[1];
 
-  var _useState7 = (0, _react.useState)(props.ind),
+  var _useState7 = (0, _react.useState)(props.desc),
       _useState8 = _slicedToArray(_useState7, 2),
-      ind = _useState8[0],
-      chaneInd = _useState8[1];
+      desc = _useState8[0],
+      changeDesc = _useState8[1];
+
+  var _useState9 = (0, _react.useState)(props.ind),
+      _useState10 = _slicedToArray(_useState9, 2),
+      ind = _useState10[0],
+      chaneInd = _useState10[1];
 
   var onSubmit = function onSubmit(event) {
     props.handleClose;
@@ -34991,7 +35065,7 @@ var Post = function Post(props) {
     e.preventDefault();
   };
 
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, props.post.title), /*#__PURE__*/_react.default.createElement("img", {
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, "Post ", props.ind, /*#__PURE__*/_react.default.createElement("br", null), props.post.title), /*#__PURE__*/_react.default.createElement("img", {
     src: props.post.image,
     alt: "Image",
     width: "100",
@@ -36131,7 +36205,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61332" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64137" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

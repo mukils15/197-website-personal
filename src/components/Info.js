@@ -1,15 +1,32 @@
 import React from "react";
 import { getInfo } from "../selectors";
 import { connect } from "react-redux";
-
+import { useState } from "react";
+import InfoEdit from "./InfoEdit";
+import InfoPopup from "./InfoPopup";
 
 const Info = ({ info }) => {
-    console.log(info);
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [editMode, setEdit] = useState(true);
+    const togglePopup = (e) => {
+        setIsOpen(!isOpen);
+        e.preventDefault();
+    }
+
+
     if (info.image === '' || info.description === '' || info.image === null || info.description === null){
         return(
-            <h1>
-                Hi! My name is Mukil Shanmugam!
-            </h1>
+            <div>
+                <h1>
+                    Hi! My name is Mukil Shanmugam!
+                </h1>
+                <InfoEdit togglePopup = {togglePopup}>  
+                </InfoEdit>
+                {isOpen && <InfoPopup
+                handleClose={togglePopup}
+                />}
+            </div>
         )  
     } else {
         return(
@@ -21,6 +38,11 @@ const Info = ({ info }) => {
                 <h1>
                     {info.description}
                 </h1>
+                <InfoEdit togglePopup = {togglePopup}>  
+                </InfoEdit>
+                {isOpen && <InfoPopup image = {info.image} desc = {info.description}
+                handleClose={togglePopup}
+                />}
             </div>
         )  
     }
