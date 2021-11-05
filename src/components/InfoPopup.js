@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 const InfoPopup = (props) => {
     const [imageUrl, changeURL] = useState(props.image);
     const [desc, changeDesc] = useState(props.desc);
-    
+    const [editMode, changeMode] = useState(props.editMode);
 
     const onSubmit = (event) => {
         props.handleClose;

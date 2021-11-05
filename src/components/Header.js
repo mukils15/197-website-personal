@@ -8,11 +8,6 @@ import "../styles/styles.css";
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [editMode, setEdit] = useState(true);
-    const togglePopup = (e) => {
-        setIsOpen(!isOpen);
-        e.preventDefault();
-    }
 
     return(
         <div>
